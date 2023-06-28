@@ -2,10 +2,15 @@ import { Button, ListItemText, Menu, MenuItem } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { closeModal, openModal } from "../../../redux/reducers/modalsReducer";
+import { deleteCar } from "../../../redux/reducers/appReducer";
 
 const ActionMenu = ({ row }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    const dispatch = useDispatch();
 
     const handleClick = event => {
         setAnchorEl(prev => event.currentTarget);
@@ -19,8 +24,14 @@ const ActionMenu = ({ row }) => {
         console.log("EDITING: ", row);
     };
 
+    const handleConfirmDelete = () => {
+        dispatch(deleteCar(row.id));
+        dispatch(closeModal());
+        handleClose();
+    };
+
     const handleDelete = () => {
-        console.log("DELETING: ", row);
+        dispatch(openModal(handleConfirmDelete, row.car, row.car_model, row.car_vin));
     };
 
     return (

@@ -43,8 +43,7 @@ const MainPage = () => {
 
         if (urlPage !== page + 1) {
             const localRowsPerPage = urlRowsPerPage ? urlRowsPerPage : rowsPerPage;
-
-            if (localRowsPerPage * urlPage <= totalCount && urlPage > 0) {
+            if (urlPage <= Math.ceil(totalCount / localRowsPerPage) && urlPage > 0) {
                 setPage(prev => urlPage - 1);
             } else {
                 onPageChange(null, 0);

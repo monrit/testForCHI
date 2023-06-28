@@ -5,17 +5,16 @@ import { LinearProgress } from "@mui/material";
 import "./App.css";
 import { useEffect } from "react";
 import { initialize, setLocalData } from "./redux/reducers/appReducer";
+import ModalConfirmation from "./components/ModalConfirmation/ModalConfirmation";
+import { closeModal } from "./redux/reducers/modalsReducer";
 
 const App = () => {
     const initialized = useSelector(store => store.app.initialized);
+    const modalProps = useSelector(store => store.modal.modalProps);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(initialize());
-
-        return () => {
-            dispatch(setLocalData());
-        };
     }, [dispatch]);
 
     if (!initialized) {
@@ -25,6 +24,7 @@ const App = () => {
     return (
         <BrowserRouter>
             <Router />
+            <ModalConfirmation {...modalProps} handleClose={() => dispatch(closeModal())}/>
         </BrowserRouter>
     );
 };
