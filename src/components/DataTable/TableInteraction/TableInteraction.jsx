@@ -19,7 +19,7 @@ const TableInteraction = () => {
     };
 
     const handleChange = e => {
-        dispatch(filterCars(e.target.value));
+        dispatch(filterCars(e.target.value.trim()));
         setSearchParams({ ...currentParams, page: 1});
         setSearch(prev => e.target.value);
     };

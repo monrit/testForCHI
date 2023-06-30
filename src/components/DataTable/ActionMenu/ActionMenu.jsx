@@ -20,10 +20,12 @@ const ActionMenu = ({ row }) => {
     };
 
     const handleEdit = () => {
+        handleClose();
         dispatch(openModalForm(true, row));
     };
-
+    
     const handleDelete = () => {
+        handleClose();
         dispatch(openModal(row.id, row.car, row.car_model, row.car_vin));
     };
 

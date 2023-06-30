@@ -1,20 +1,17 @@
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormHelperText,
-    InputAdornment,
-    MenuItem,
-    TextField,
-} from "@mui/material";
+import { Dialog, DialogContent, InputAdornment, MenuItem, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { modalFormValidation } from "./modalFormValidation";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCar, editCar } from "../../redux/reducers/appReducer";
 import { closeModalForm } from "../../redux/reducers/modalsReducer";
+import ModalActions from "./ModalActions/ModalActions";
+import ModalTitle from "./ModalTitle/ModalTitle";
+
+const selectOptions = [
+    { label: "Available", value: true },
+    { label: "Unavailable", value: false },
+];
 
 const ModalForm = ({ open, editMode, carInfo }) => {
     const {
@@ -69,12 +66,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                 aria-labelledby="edit-dialog-title"
                 aria-describedby="edit-dialog-description"
             >
-                <DialogTitle
-                    id="edit-dialog-title"
-                    sx={{ fontWeight: "bold", textAlign: "center" }}
-                >
-                    {editMode ? "Change allowed fields" : "Fill the new car properties"}
-                </DialogTitle>
+                <ModalTitle editMode={editMode} />
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogContent
                         sx={{
@@ -145,33 +137,14 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                             }}
                             {...register("availability", modalFormValidation.availability)}
                         >
-                            {[
-                                { label: "Available", value: true },
-                                { label: "Unavailable", value: false },
-                            ].map(option => (
+                            {selectOptions.map(option => (
                                 <MenuItem key={option.label} value={option.value}>
                                     {option.label}
                                 </MenuItem>
                             ))}
                         </TextField>
                     </DialogContent>
-                    <DialogActions>
-                        <FormHelperText sx={{ mr: "auto", ml: "16px" }} error component="span">
-                            {errors.car?.message ||
-                                errors.car_model?.message ||
-                                errors.car_vin?.message ||
-                                errors.car_color?.message ||
-                                errors.car_model_year?.message ||
-                                errors.price?.message ||
-                                errors.availability?.message}
-                        </FormHelperText>
-                        <Button type="button" onClick={handleClose}>
-                            Cancel
-                        </Button>
-                        <Button variant="contained" autoFocus type="submit">
-                            {editMode ? "Save" : "Create"}
-                        </Button>
-                    </DialogActions>
+                    <ModalActions errors={errors} editMode={editMode} handleClose={handleClose} />
                 </form>
             </Dialog>
         </>
