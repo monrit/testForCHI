@@ -6,7 +6,7 @@ export const styles = {
             md: 500
         },
         maxHeight: {
-            xs: 700,
+            xs: 600,
             sm: 700,
             md: 600,
             lg: 500,
