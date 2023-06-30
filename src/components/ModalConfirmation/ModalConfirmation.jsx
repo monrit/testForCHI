@@ -1,6 +1,18 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { useDispatch } from "react-redux";
+import { closeModal } from "../../redux/reducers/modalsReducer";
+import { deleteCar } from "../../redux/reducers/appReducer";
 
-const ModalConfirmation = ({ open, handleClose, handleConfirm, carName, carModel, vinNumber }) => {
+const ModalConfirmation = ({ open, id, carName, carModel, vinNumber }) => {
+    const dispatch = useDispatch();
+
+    const handleClose = () => dispatch(closeModal());
+
+    const handleConfirm = () => {
+        dispatch(deleteCar(id));
+        dispatch(closeModal());
+    };
+
     return (
         <Dialog
             open={open}
@@ -18,9 +30,9 @@ const ModalConfirmation = ({ open, handleClose, handleConfirm, carName, carModel
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
-                <Button onClick={handleClose}>Discard</Button>
-                <Button onClick={handleConfirm} autoFocus>
-                    Confirm
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleConfirm} color="error" autoFocus>
+                    Delete
                 </Button>
             </DialogActions>
         </Dialog>

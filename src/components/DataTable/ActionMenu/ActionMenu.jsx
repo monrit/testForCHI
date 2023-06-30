@@ -3,8 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { closeModal, openModal } from "../../../redux/reducers/modalsReducer";
-import { deleteCar } from "../../../redux/reducers/appReducer";
+import { openModal, openModalForm } from "../../../redux/reducers/modalsReducer";
 
 const ActionMenu = ({ row }) => {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -21,17 +20,11 @@ const ActionMenu = ({ row }) => {
     };
 
     const handleEdit = () => {
-        console.log("EDITING: ", row);
-    };
-
-    const handleConfirmDelete = () => {
-        dispatch(deleteCar(row.id));
-        dispatch(closeModal());
-        handleClose();
+        dispatch(openModalForm(true, row));
     };
 
     const handleDelete = () => {
-        dispatch(openModal(handleConfirmDelete, row.car, row.car_model, row.car_vin));
+        dispatch(openModal(row.id, row.car, row.car_model, row.car_vin));
     };
 
     return (
