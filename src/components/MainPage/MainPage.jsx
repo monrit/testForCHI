@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import DataTable from "../DataTable/DataTable";
 import { useSelector } from "react-redux";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -70,7 +70,6 @@ const MainPage = () => {
     return (
         <>
             <Box sx={{ width: "100%", height: 500 }}>
-                <Typography sx={{ textAlign: "center", mb: "4px", mt: "4px" }}>CHI CARS</Typography>
                 <DataTable
                     rows={rows}
                     page={page}

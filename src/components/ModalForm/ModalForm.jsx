@@ -16,13 +16,13 @@ import { useDispatch } from "react-redux";
 import { addCar, editCar } from "../../redux/reducers/appReducer";
 import { closeModalForm } from "../../redux/reducers/modalsReducer";
 
-const ModalForm = ({ open, editMode, carInfo = {} }) => {
+const ModalForm = ({ open, editMode, carInfo }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
         setValue,
-        reset
+        reset,
     } = useForm({
         mode: "onBlur",
     });
@@ -49,13 +49,15 @@ const ModalForm = ({ open, editMode, carInfo = {} }) => {
     };
 
     useEffect(() => {
-        reset();
-        if (editMode) {
-            setValue("car_color", carInfo.car_color);
-            setValue("price", carInfo.price?.slice(1));
-            setValue("availability", carInfo.availability);
+        if (editMode && open === true) {
+            reset();
+            setValue("car_color", carInfo?.car_color);
+            setValue("price", carInfo?.price?.slice(1));
+            setValue("availability", carInfo?.availability);
+        } else if (!editMode && open === true) {
+            reset();
         }
-    }, [carInfo, setValue, editMode, reset]);
+    }, [carInfo, editMode, open, setValue, reset]);
 
     return (
         <>
@@ -132,7 +134,7 @@ const ModalForm = ({ open, editMode, carInfo = {} }) => {
                             variant="standard"
                             InputProps={{
                                 sx: { maxWidth: 120, width: 120 },
-                                defaultValue: carInfo.availability || false,
+                                defaultValue: carInfo?.availability || false,
                             }}
                             {...register("availability", modalFormValidation.availability)}
                         >

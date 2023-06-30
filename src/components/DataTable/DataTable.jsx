@@ -9,8 +9,10 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    Typography,
 } from "@mui/material";
 import ActionMenu from "./ActionMenu/ActionMenu";
+import TableInteraction from "./TableInteraction/TableInteraction";
 
 const columns = [
     { id: "car", align: "left", label: "Company", minWidth: 120 },
@@ -53,7 +55,7 @@ const conditionalRender = (row, id) => {
                         height: "12px",
                         mr: "4px",
                         backgroundColor: bgColor,
-                        display: "inline-block"
+                        display: "inline-block",
                     }}
                 />
                 {row[id]}
@@ -75,53 +77,68 @@ const DataTable = ({
 }) => {
     return (
         <>
-            <Paper sx={{ ml: 1, mr: 1 }}>
-                <TableContainer sx={{ maxHeight: 510, overflowX: "scroll" }}>
-                    <Table stickyHeader>
-                        <TableHead>
-                            <TableRow>
-                                {columns.map(column => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        sx={{ minWidth: column.minWidth, fontWeight: "bold" }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map(row => {
-                                return (
-                                    <TableRow hover tabIndex={-1} key={row.id}>
-                                        {columns.map(column => {
-                                            return (
-                                                <TableCell
-                                                    key={column.id}
-                                                    align={column.align}
-                                                    sx={{ padding: "10px" }}
-                                                >
-                                                    {conditionalRender(row, column.id)}
-                                                </TableCell>
-                                            );
-                                        })}
+            <Box sx={{ margin: 1 }}>
+                <TableInteraction />
+                <Paper>
+                    <TableContainer sx={{ maxHeight: 510, minHeight: 510, overflowX: "scroll" }}>
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                    {columns.map(column => (
+                                        <TableCell
+                                            key={column.id}
+                                            align={column.align}
+                                            sx={{ minWidth: column.minWidth, fontWeight: "bold" }}
+                                        >
+                                            {column.label}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rows.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell align="center" colSpan={8} sx={{ borderBottom: 'none' }}>
+                                            <Typography
+                                                sx={{ textAlign: "center", color: "gray" }}
+                                                variant="body1"
+                                            >
+                                                No data on this page
+                                            </Typography>
+                                        </TableCell>
                                     </TableRow>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={rowsPerPageOptions}
-                    component="div"
-                    count={totalCount}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={onPageChange}
-                    onRowsPerPageChange={onRowsPerPageChange}
-                />
-            </Paper>
+                                ) : null}
+                                {rows.map(row => {
+                                    return (
+                                        <TableRow hover tabIndex={-1} key={row.id}>
+                                            {columns.map(column => {
+                                                return (
+                                                    <TableCell
+                                                        key={column.id}
+                                                        align={column.align}
+                                                        sx={{ padding: "10px" }}
+                                                    >
+                                                        {conditionalRender(row, column.id)}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <TablePagination
+                        rowsPerPageOptions={rowsPerPageOptions}
+                        component="div"
+                        count={totalCount}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={onPageChange}
+                        onRowsPerPageChange={onRowsPerPageChange}
+                    />
+                </Paper>
+            </Box>
         </>
     );
 };

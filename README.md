@@ -1,7 +1,7 @@
-# Getting Started with Create React App
+# Test task by Kataiev Dmytro for CHI Software
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
+Hosted on netliify [here](https://dmytrokataievchitest.netlify.app/)!
 ## Available Scripts
 
 In the project directory, you can run:
