@@ -33,11 +33,11 @@ export const modalFormValidation = {
         required: "VIN is required!",
         maxLength: {
             value: 20,
-            message: "To long VIN",
+            message: "Too long VIN",
         },
         minLength: {
             value: 5,
-            message: "Your VIN is to short",
+            message: "VIN should be at least five symbols long",
         },
         pattern: {
             value: /^[a-zA-Z0-9 ]+$/,
@@ -48,7 +48,7 @@ export const modalFormValidation = {
         required: "Year is required!",
         min: {
             value: 1900,
-            message: "Your car is to old",
+            message: "Your car is too old",
         },
         max: {
             value: 2024,
@@ -78,11 +78,11 @@ export const modalFormValidation = {
         required: "Price is required!",
         min: {
             value: 1,
-            message: "Your price is to low",
+            message: "Your price is too low",
         },
         max: {
             value: 9999999.99,
-            message: "Your price is to high",
+            message: "Your price is too high",
         },
         pattern: {
             value: /^[0-9]+(\.[0-9]{2})?$/,

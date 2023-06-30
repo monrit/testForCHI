@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import ActionMenu from "./ActionMenu/ActionMenu";
 import TableInteraction from "./TableInteraction/TableInteraction";
+import { styles } from "./DataTableStyles";
 
 const columns = [
     { id: "car", align: "left", label: "Company", minWidth: 120 },
@@ -80,7 +81,7 @@ const DataTable = ({
             <Box sx={{ margin: 1 }}>
                 <TableInteraction />
                 <Paper>
-                    <TableContainer sx={{ maxHeight: 510, minHeight: 510, overflowX: "scroll" }}>
+                    <TableContainer sx={styles.tableContainer}>
                         <Table stickyHeader>
                             <TableHead>
                                 <TableRow>
@@ -100,10 +101,10 @@ const DataTable = ({
                                     <TableRow>
                                         <TableCell align="center" colSpan={8} sx={{ borderBottom: 'none' }}>
                                             <Typography
-                                                sx={{ textAlign: "center", color: "gray" }}
+                                                sx={{ color: "gray" }}
                                                 variant="body1"
                                             >
-                                                No data on this page
+                                                No results
                                             </Typography>
                                         </TableCell>
                                     </TableRow>

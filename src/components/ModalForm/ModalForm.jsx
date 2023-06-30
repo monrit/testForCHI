@@ -73,14 +73,21 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                     id="edit-dialog-title"
                     sx={{ fontWeight: "bold", textAlign: "center" }}
                 >
-                    {editMode ? "Change allowed fields" : "Fill the new car properites"}
+                    {editMode ? "Change allowed fields" : "Fill the new car properties"}
                 </DialogTitle>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <DialogContent sx={{ display: "flex", gap: "10px" }}>
+                    <DialogContent
+                        sx={{
+                            display: "flex",
+                            gap: "10px",
+                            flexDirection: { xs: "column", sm: "row" },
+                            flexWrap: "wrap",
+                        }}
+                    >
                         <TextField
                             label={editMode ? carInfo.car : "Company"}
                             variant="standard"
-                            sx={{ maxWidth: 120 }}
+                            sx={{ maxWidth: { xs: 270, lg: 120 } }}
                             {...register("car", {
                                 ...modalFormValidation.company,
                                 disabled: editMode,
@@ -89,7 +96,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                         <TextField
                             label={editMode ? carInfo.car_model : "Model"}
                             variant="standard"
-                            sx={{ maxWidth: 180 }}
+                            sx={{ maxWidth: { xs: 270, lg: 180 } }}
                             {...register("car_model", {
                                 ...modalFormValidation.model,
                                 disabled: editMode,
@@ -98,7 +105,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                         <TextField
                             label={editMode ? carInfo.car_vin : "VIN"}
                             variant="standard"
-                            sx={{ maxWidth: 200 }}
+                            sx={{ maxWidth: { xs: 270, lg: 200 } }}
                             {...register("car_vin", {
                                 ...modalFormValidation.vin,
                                 disabled: editMode,
@@ -107,13 +114,13 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                         <TextField
                             label="Color"
                             variant="standard"
-                            sx={{ maxWidth: 120 }}
+                            sx={{ maxWidth: { xs: 270, lg: 120 } }}
                             {...register("car_color", modalFormValidation.color)}
                         />
                         <TextField
                             label={editMode ? carInfo.car_model_year : "Year"}
                             variant="standard"
-                            sx={{ maxWidth: 80 }}
+                            sx={{ maxWidth: { xs: 270, lg: 80 } }}
                             {...register("car_model_year", {
                                 ...modalFormValidation.year,
                                 disabled: editMode,
@@ -122,7 +129,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                         <TextField
                             label="Price"
                             variant="standard"
-                            sx={{ maxWidth: 120 }}
+                            sx={{ maxWidth: { xs: 270, lg: 120 } }}
                             InputProps={{
                                 startAdornment: <InputAdornment position="start">$</InputAdornment>,
                             }}
@@ -133,7 +140,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                             label="Availability"
                             variant="standard"
                             InputProps={{
-                                sx: { maxWidth: 120, width: 120 },
+                                sx: { maxWidth: { xs: 270, lg: 120 }, width: { xs: 270, lg: 120 } },
                                 defaultValue: carInfo?.availability || false,
                             }}
                             {...register("availability", modalFormValidation.availability)}
