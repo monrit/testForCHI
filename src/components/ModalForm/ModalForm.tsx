@@ -49,7 +49,7 @@ const ModalForm: FC<ModalFormPropsType> = ({ open, editMode, carInfo }) => {
 
     const onSubmit: SubmitHandler<Inputs> = data => {
         data.car_model_year = Number(data.car_model_year);
-        data.availability = data.availability === "true" ? true : false;
+        data.availability = (data.availability === "true" || data.availability === true) ? true : false;
         data.price = "$" + data.price;
         if (data.car === undefined && carInfo) {
             const newCar = {
@@ -153,7 +153,7 @@ const ModalForm: FC<ModalFormPropsType> = ({ open, editMode, carInfo }) => {
                             variant="standard"
                             InputProps={{
                                 sx: { maxWidth: { xs: 270, lg: 120 }, width: { xs: 270, lg: 120 } },
-                                defaultValue: carInfo?.availability ? "true" : "false",
+                                defaultValue: carInfo?.availability === true ? "true" : "false",
                             }}
                             {...register("availability")}
                         >
