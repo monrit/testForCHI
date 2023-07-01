@@ -10,7 +10,7 @@ export const modalFormValidation = {
             message: "Company should be at least two symbols long",
         },
         pattern: {
-            value: /^[a-zA-Z ]+$/,
+            value: /^[a-zA-Z\- ]+$/,
             message: "Company can only contain latin letters",
         },
     },
