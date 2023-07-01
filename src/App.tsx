@@ -3,15 +3,16 @@ import Router from "./components/Router/Router";
 import { useDispatch, useSelector } from "react-redux";
 import { LinearProgress } from "@mui/material";
 import "./App.css";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { initialize } from "./redux/reducers/appReducer";
 import ModalConfirmation from "./components/ModalConfirmation/ModalConfirmation";
 import ModalForm from "./components/ModalForm/ModalForm";
+import { AppStateType } from "./redux/store";
 
-const App = () => {
-    const initialized = useSelector(store => store.app.initialized);
-    const modalProps = useSelector(store => store.modal.modalProps);
-    const modalFormProps = useSelector(store => store.modal.modalFormProps);
+const App: FC = () => {
+    const initialized = useSelector((store: AppStateType) => store.app.initialized);
+    const modalProps = useSelector((store: AppStateType) => store.modal.modalProps);
+    const modalFormProps = useSelector((store: AppStateType) => store.modal.modalFormProps);
     const dispatch = useDispatch();
 
     useEffect(() => {

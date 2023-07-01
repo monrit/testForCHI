@@ -1,7 +1,15 @@
 import { Box, Chip } from "@mui/material";
 import ActionMenu from "./ActionMenu/ActionMenu";
+import { CarType } from "../../api/data";
 
-export const columns = [
+type ColumnType = {
+    id: keyof CarType | "actions";
+    align: "left" | "right" | "center";
+    label: string;
+    minWidth: number;
+};
+
+export const columns: ColumnType[] = [
     { id: "car", align: "left", label: "Company", minWidth: 120 },
     { id: "car_model", align: "left", label: "Model", minWidth: 180 },
     { id: "car_vin", align: "left", label: "VIN", minWidth: 200 },
@@ -12,7 +20,7 @@ export const columns = [
     { id: "actions", align: "center", label: "Actions", minWidth: 100 },
 ];
 
-export const conditionalRender = (row, id) => {
+export const conditionalRender = (row: CarType, id: keyof CarType | "actions") => {
     if (id === "actions") {
         return <ActionMenu row={row} />;
     } else if (id === "availability") {
@@ -49,6 +57,6 @@ export const conditionalRender = (row, id) => {
             </>
         );
     } else {
-        return row[id].toString();
+        return String(row[id]);
     }
 };

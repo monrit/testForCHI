@@ -1,30 +1,35 @@
 import { Button, ListItemText, Menu, MenuItem } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useState } from "react";
+import { FC, MouseEvent, useState } from "react";
 import { useDispatch } from "react-redux";
 import { openModal, openModalForm } from "../../../redux/reducers/modalsReducer";
+import { CarType } from "../../../api/data";
 
-const ActionMenu = ({ row }) => {
-    const [anchorEl, setAnchorEl] = useState(null);
+type ActionMenuPropsType = {
+    row: CarType;
+};
+
+const ActionMenu: FC<ActionMenuPropsType> = ({ row }) => {
+    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const open = Boolean(anchorEl);
 
     const dispatch = useDispatch();
 
-    const handleClick = event => {
+    const handleClick = (event: MouseEvent<HTMLButtonElement>): void => {
         setAnchorEl(prev => event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         setAnchorEl(prev => null);
     };
 
-    const handleEdit = () => {
+    const handleEdit = (): void => {
         handleClose();
         dispatch(openModalForm(true, row));
     };
-    
-    const handleDelete = () => {
+
+    const handleDelete = (): void => {
         handleClose();
         dispatch(openModal(row.id, row.car, row.car_model, row.car_vin));
     };

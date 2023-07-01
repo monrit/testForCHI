@@ -13,8 +13,20 @@ import TableInteraction from "./TableInteraction/TableInteraction";
 import { styles } from "./DataTableStyles";
 import { columns, conditionalRender } from "./DataTableHelpers";
 import NoDataText from "./NoDataText/NoDataText";
+import { CarType } from "../../api/data";
+import { ChangeEvent, FC, MouseEvent } from "react";
 
-const DataTable = ({
+type DataTablePropsType = {
+    rows: CarType[];
+    page: number;
+    rowsPerPage: number;
+    totalCount: number;
+    onPageChange: (e: MouseEvent<HTMLButtonElement> | null, page: number) => void;
+    onRowsPerPageChange: (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+    rowsPerPageOptions: number[];
+};
+
+const DataTable: FC<DataTablePropsType> = ({
     rows,
     page,
     rowsPerPage,

@@ -1,37 +1,57 @@
 import { Dialog, DialogContent, InputAdornment, MenuItem, TextField } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { modalFormValidation } from "./modalFormValidation";
-import { useEffect } from "react";
+import { FC, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addCar, editCar } from "../../redux/reducers/appReducer";
 import { closeModalForm } from "../../redux/reducers/modalsReducer";
 import ModalActions from "./ModalActions/ModalActions";
 import ModalTitle from "./ModalTitle/ModalTitle";
+import { CarType } from "../../api/data";
 
 const selectOptions = [
-    { label: "Available", value: true },
-    { label: "Unavailable", value: false },
+    { label: "Available", value: "true" },
+    { label: "Unavailable", value: "false" },
 ];
 
-const ModalForm = ({ open, editMode, carInfo }) => {
+type ModalFormPropsType = {
+    open: boolean;
+    editMode: boolean;
+    carInfo?: CarType;
+};
+
+export type Inputs = {
+    car: string;
+    car_model: string;
+    car_vin: string;
+    car_color: string;
+    car_model_year: number | string;
+    price: string;
+    availability: boolean | string;
+};
+
+const ModalForm: FC<ModalFormPropsType> = ({ open, editMode, carInfo }) => {
     const {
         register,
         handleSubmit,
         formState: { errors },
         setValue,
         reset,
-    } = useForm({
+    } = useForm<Inputs>({
         mode: "onBlur",
     });
 
     const dispatch = useDispatch();
 
-    const handleClose = () => dispatch(closeModalForm());
+    const handleClose = (): void => {
+        dispatch(closeModalForm());
+    };
 
-    const onSubmit = data => {
+    const onSubmit: SubmitHandler<Inputs> = data => {
         data.car_model_year = Number(data.car_model_year);
+        data.availability = data.availability === "true" ? true : false;
         data.price = "$" + data.price;
-        if (data.car === undefined) {
+        if (data.car === undefined && carInfo) {
             const newCar = {
                 ...carInfo,
                 car_color: data.car_color,
@@ -40,17 +60,17 @@ const ModalForm = ({ open, editMode, carInfo }) => {
             };
             dispatch(editCar(newCar));
         } else {
-            dispatch(addCar(data));
+            dispatch(addCar(data as Omit<CarType, "id">));
         }
         handleClose();
     };
 
     useEffect(() => {
-        if (editMode && open === true) {
+        if (editMode && open === true && carInfo) {
             reset();
-            setValue("car_color", carInfo?.car_color);
-            setValue("price", carInfo?.price?.slice(1));
-            setValue("availability", carInfo?.availability);
+            setValue("car_color", carInfo.car_color);
+            setValue("price", carInfo.price.slice(1));
+            setValue("availability", carInfo.availability);
         } else if (!editMode && open === true) {
             reset();
         }
@@ -77,7 +97,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                         }}
                     >
                         <TextField
-                            label={editMode ? carInfo.car : "Company"}
+                            label={editMode ? carInfo?.car : "Company"}
                             variant="standard"
                             sx={{ maxWidth: { xs: 270, lg: 120 } }}
                             {...register("car", {
@@ -86,7 +106,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                             })}
                         />
                         <TextField
-                            label={editMode ? carInfo.car_model : "Model"}
+                            label={editMode ? carInfo?.car_model : "Model"}
                             variant="standard"
                             sx={{ maxWidth: { xs: 270, lg: 180 } }}
                             {...register("car_model", {
@@ -95,7 +115,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                             })}
                         />
                         <TextField
-                            label={editMode ? carInfo.car_vin : "VIN"}
+                            label={editMode ? carInfo?.car_vin : "VIN"}
                             variant="standard"
                             sx={{ maxWidth: { xs: 270, lg: 200 } }}
                             {...register("car_vin", {
@@ -110,7 +130,7 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                             {...register("car_color", modalFormValidation.color)}
                         />
                         <TextField
-                            label={editMode ? carInfo.car_model_year : "Year"}
+                            label={editMode ? carInfo?.car_model_year : "Year"}
                             variant="standard"
                             sx={{ maxWidth: { xs: 270, lg: 80 } }}
                             {...register("car_model_year", {
@@ -133,9 +153,9 @@ const ModalForm = ({ open, editMode, carInfo }) => {
                             variant="standard"
                             InputProps={{
                                 sx: { maxWidth: { xs: 270, lg: 120 }, width: { xs: 270, lg: 120 } },
-                                defaultValue: carInfo?.availability || false,
+                                defaultValue: carInfo?.availability ? "true" : "false",
                             }}
-                            {...register("availability", modalFormValidation.availability)}
+                            {...register("availability")}
                         >
                             {selectOptions.map(option => (
                                 <MenuItem key={option.label} value={option.value}>

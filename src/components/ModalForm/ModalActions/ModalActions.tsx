@@ -1,6 +1,17 @@
 import { Button, DialogActions, FormHelperText } from "@mui/material";
+import { FC } from "react";
+import { Inputs } from "../ModalForm";
+import { FieldErrors } from "react-hook-form";
 
-const ModalActions = ({ errors, handleClose, editMode }) => {
+type FormErrorsType = FieldErrors<Inputs>;
+
+type ModalActionsPropsType = {
+    errors: FormErrorsType;
+    handleClose: () => void;
+    editMode: boolean;
+};
+
+const ModalActions: FC<ModalActionsPropsType> = ({ errors, handleClose, editMode }) => {
     return (
         <>
             <DialogActions>

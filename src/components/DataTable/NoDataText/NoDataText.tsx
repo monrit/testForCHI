@@ -1,6 +1,7 @@
 import { TableCell, TableRow, Typography } from "@mui/material";
+import { FC } from "react";
 
-const NoDataText = () => {
+const NoDataText: FC = () => {
     return (
         <>
             <TableRow>

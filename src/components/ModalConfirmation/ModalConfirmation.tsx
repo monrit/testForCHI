@@ -1,14 +1,38 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from "@mui/material";
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../redux/reducers/modalsReducer";
 import { deleteCar } from "../../redux/reducers/appReducer";
+import { FC } from "react";
 
-const ModalConfirmation = ({ open, id, carName, carModel, vinNumber }) => {
+type ModalConfirmationPropsType = {
+    open: boolean;
+    id: number;
+    carName: string;
+    carModel: string;
+    vinNumber: string;
+};
+
+const ModalConfirmation: FC<ModalConfirmationPropsType> = ({
+    open,
+    id,
+    carName,
+    carModel,
+    vinNumber,
+}) => {
     const dispatch = useDispatch();
 
-    const handleClose = () => dispatch(closeModal());
+    const handleClose = (): void => {
+        dispatch(closeModal());
+    };
 
-    const handleConfirm = () => {
+    const handleConfirm = (): void => {
         dispatch(deleteCar(id));
         dispatch(closeModal());
     };

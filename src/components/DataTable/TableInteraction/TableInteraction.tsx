@@ -2,11 +2,11 @@ import { Box, Button, TextField } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { openModalForm } from "../../../redux/reducers/modalsReducer";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { useState } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import { filterCars } from "../../../redux/reducers/appReducer";
 import { useSearchParams } from "react-router-dom";
 
-const TableInteraction = () => {
+const TableInteraction: FC = () => {
     const [search, setSearch] = useState("");
 
     const dispatch = useDispatch();
@@ -14,13 +14,13 @@ const TableInteraction = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const currentParams = Object.fromEntries(searchParams.entries());
 
-    const handleClick = () => {
-        dispatch(openModalForm());
+    const handleClick = (): void => {
+        dispatch(openModalForm(false));
     };
 
-    const handleChange = e => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         dispatch(filterCars(e.target.value.trim()));
-        setSearchParams({ ...currentParams, page: 1});
+        setSearchParams({ ...currentParams, page: "1"});
         setSearch(prev => e.target.value);
     };
 

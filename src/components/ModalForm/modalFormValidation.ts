@@ -89,8 +89,5 @@ export const modalFormValidation = {
             message:
                 "Price can only contain numbers, and if not an integer should have 2 decimal places",
         },
-    },
-    availability: {
-        setValueAs: v => ((v === "true" || v === true) ? true : false),
-    },
+    }
 };

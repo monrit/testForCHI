@@ -1,9 +1,15 @@
-export const styles = {
+import { SxProps } from "@mui/material";
+
+type StylesType = {
+    tableContainer: SxProps;
+};
+
+export const styles: StylesType = {
     tableContainer: {
         minHeight: {
             xs: 350,
             sm: 400,
-            md: 500
+            md: 500,
         },
         maxHeight: {
             xs: 600,

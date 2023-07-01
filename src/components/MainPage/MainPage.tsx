@@ -1,33 +1,35 @@
 import { Box } from "@mui/material";
 import DataTable from "../DataTable/DataTable";
 import { useSelector } from "react-redux";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, FC, MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { AppStateType } from "../../redux/store";
+import { CarType } from "../../api/data";
 
-const MainPage = () => {
+const MainPage: FC = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [rows, setRows] = useState([]);
+    const [rows, setRows] = useState<CarType[] | []>([]);
 
-    const totalCount = useSelector(store => store.app.cars.length);
-    const cars = useSelector(store => store.app.cars);
+    const totalCount = useSelector((store: AppStateType) => store.app.cars.length);
+    const cars = useSelector((store: AppStateType) => store.app.cars);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const urlPage = Number(searchParams.get("page"));
     const urlRowsPerPage = Number(searchParams.get("rowsPerPage"));
     const currentParams = Object.fromEntries(searchParams.entries());
 
-    const rowsPerPageOptions = useMemo(() => [10, 25, 50], []);
+    const rowsPerPageOptions = useMemo((): number[] => [10, 25, 50], []);
 
     const onPageChange = useCallback(
-        (e, newPage) => {
-            setSearchParams({ ...currentParams, page: newPage + 1 });
+        (e: MouseEvent<HTMLButtonElement> | null, newPage: number): void => {
+            setSearchParams({ ...currentParams, page: String(newPage + 1) });
         },
         [setSearchParams, currentParams]
     );
 
-    const onRowsPerPageChange = e => {
-        setSearchParams({ ...currentParams, page: 1, rowsPerPage: e.target.value });
+    const onRowsPerPageChange = (e: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>): void => {
+        setSearchParams({ ...currentParams, page: "1", rowsPerPage: e.target.value });
     };
 
     useEffect(() => {
@@ -36,7 +38,7 @@ const MainPage = () => {
                 setRowsPerPage(prev => urlRowsPerPage);
                 return;
             } else {
-                setSearchParams({ ...currentParams, rowsPerPage: 10 });
+                setSearchParams({ ...currentParams, rowsPerPage: "10" });
                 return;
             }
         }
